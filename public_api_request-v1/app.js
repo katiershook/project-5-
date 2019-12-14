@@ -1,22 +1,16 @@
-
-
 // project 5 
-
 // url for  random data 
 const urlApi = 'https://randomuser.me/api/?results=12&nat=us';
-
 // creates a div for the cards
 const gallery = document.createElement('div');
 // assigns a class of card
-gallery.class = "card";
+gallery.class = 'card';
+gallery.Id = 'modal';
 //gallery.innerHTML = cardDiv;
 // appends this bad boy to the body
 document.body.appendChild(gallery);
-
-
 // creates  a variable with provided html 
-const searchBarHtml = 
-	`<form action="#" method="get">
+const searchBarHtml = `<form action="#" method="get">
 <input type="search" id="search-input" class="search-input" placeholder="Search...">
 <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
 </form>`
@@ -28,7 +22,6 @@ searchBar.class = "search-container";
 searchBar.innerHTML = searchBarHtml;
 // appens that bad boy to the body of the  page
 document.body.appendChild(searchBar);
-
 // creates a variable using the provided  html for the module
 const module = ` <div class="modal-container">
 <div class="modal">
@@ -44,27 +37,21 @@ const module = ` <div class="modal-container">
         <p class="modal-text">Birthday: 10/21/2015</p>
     </div>
 </div>`
-
 console.log('hi');
 //--------------------------------------
 // FETCH FUNCTIONS
 //-------------------------------------
 // creates a fetch function to gather data using the random user url. 
-fetch('https://randomuser.me/api/?results=12&nat=us')
-         .then(response => response.json())  // uses the .then to parse  it into json so we can use the data 
+fetch('https://randomuser.me/api/?results=12&nat=us').then(response => response.json()) // uses the .then to parse  it into json so we can use the data 
 	//.then(data => console.log(data.results)) // returns response 
-	    .then(data => generateEmployee(data.results)) // passes the generateEmployee ()
-
- //    ---------------------------
+	.then(data => generateEmployee(data.results)) // passes the generateEmployee ()
+//    ---------------------------
 //   //HELPER FUNCTIONS
 //  ----------------------------------
-
 function generateEmployee(data) {
-    // creates variable and maps over the returned data. Interpolates the  random data we want to plug into the cards by 
-    //${item.picture.thumbnail}. I plug in  thumbnail, location, ect bc that it was the data returned to the console 
-    
-    
-    const employees = data.map(item => `
+	// creates variable and maps over the returned data. Interpolates the  random data we want to plug into the cards by 
+	//${item.picture.thumbnail}. I plug in  thumbnail, location, ect bc that it was the data returned to the console 
+	const employees = data.map(item => `
      <div class="card">
      <div class="card-img-container">
          <img class="card-img" src="${item.picture.thumbnail}"alt="profile picture">
@@ -75,28 +62,13 @@ function generateEmployee(data) {
          <p class="card-text">${item.email}</p>
          <p class="card-text cap"> ${item.location.city}   ${item.location.state}</p>
      </div>
-     </div>` 
-     )
-     // takes the innerHTML of the gallery  div
+     </div>`)
+	// takes the innerHTML of the gallery  div
 	gallery.innerHTML = employees
-	document.getElementByClassName('.card').addEventListener('click', modulePop(data[document.getElementsByClassName('.card').index(document.getElementByClassName('.card'))]))
-
-	function modulePop(data) {
-		const popup = `
-        <div class="card">
-        <div class="card-img-container">
-            <img class="card-img" src="${data.picture.thumbnail}"alt="profile picture">
-        </div>
-        <div class="card-info-container">
-            <h3 id="name" class="card-name cap">
-            ${data.name.first}   ${data.name.last}</h3>
-            <p class="card-text">${data.email}</p>
-            <p class="card-text cap"> ${data.location.city}   ${data.location.state}</p>
-        </div>
-        </div>`
-		gallery.after(popup);
-	}
 }
-    
-     
-// const imageHtml = `<img src =`${data}` alt >
+
+function popUpWindow() {
+	document.querySelector('employees').addEventListener('click', function() {
+		document.querySelector('.module').addClass('open')
+	})
+}
