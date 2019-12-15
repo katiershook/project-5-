@@ -1,9 +1,7 @@
 // project 5 
 // url for  random data 
 const urlApi = 'https://randomuser.me/api/?results=12&nat=us';
-// creates a div for the cards
-//gallery.innerHTML = cardDiv;
-// appends this bad boy to the body
+//appends the gallery
 document.body.appendChild(gallery);
 // creates  a variable with provided html 
 const searchBarHtml = `<form action="#" method="get">
@@ -25,8 +23,8 @@ console.log('hi');
 // creates a fetch function to gather data using the random user url. 
 fetch('https://randomuser.me/api/?results=12&nat=us').then(response => response.json()) // uses the .then to parse  it into json so we can use the data 
 	//.then(data => console.log(data.results)) // returns response 
-    .then(data => {generateEmployee(data.results) 
-        document.addEventListener('click', (e) => {
+    .then(data => {generateEmployee(data.results) // event listener 
+        document.addEventListener('click', (e) => { // uses closest to return the closest ancestor to the click.
             if (e.target.closest('.card')) {
                 const index = (e.target.closest('.card').id)
                 PopUp(data.results, index)
@@ -49,7 +47,7 @@ const modal = ` <div class="modal-container">
         <p class="modal-text">Birthday: 10/21/2015</p>
     </div>
 </div>`;
-
+// creates function and forEach to interpolate data to the gallery cards
 function generateEmployee(data) {
 	let employeeCards = ""
 	data.forEach((item, index) => {
@@ -64,13 +62,13 @@ function generateEmployee(data) {
             <p class="card-text cap"> ${item.location.city}   ${item.location.state}</p>
             <p class="modal-text">${item.cell}</p>
             <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
-            <p class="modal-text">${item.dob.date}</p>
+            
         </div>
         </div>`
 		gallery.innerHTML = employeeCards;
 	})
 }
-
+// functiion that interpolates the data to the modal window 
 function PopUp(employeeArray, index) {
    
    
@@ -85,16 +83,26 @@ let reverseDate = `${noTime.charAt(5)}${noTime.charAt(6)}/${noTime.charAt(8)}${n
         <img class="modal-img" src="${employee.picture.medium}" alt="profile picture">
         <h3 id="name" class="modal-name cap">${employee.name.first}  ${employee.name.last}</h3>
         <p class="modal-text">${employee.email}</p>
-        <p class="modal-text cap">${employee.location.city} ${employee.location.state}</p>
+
         <hr>
         <p class="modal-text">${employee.cell}</p>
-        <p class="modal-text">${employee.location.street}
-        ${employee.location.name}</p>
+        <p class="modal-text">${employee.location.street.number} ${employee.location.street.name}, ${employee.location.state}  ${employee.location.postcode}</p>
         <p class="modal-text">${reverseDate}</p>
     </div>
 </div>`;
-	const window = document.createElement('div');
+	const window = document.createElement('div'); // creates and appeneds the actual popup
 	document.body.appendChild(window);
     window.innerHTML = modal 
 
-}
+
+
+
+    
+
+document.addEventListener('click', (e) => {
+    if (e.target.closest('.modal-close-btn')) {
+        window.remove(); // removes the window 
+       
+    }
+// })
+})}
