@@ -18,36 +18,36 @@ searchBar.innerHTML = searchBarHtml;
 document.body.appendChild(searchBar);
 console.log('hi');
 //--------------------------------------
-// FETCH FUNCTIONS
+// FETCH FUNCTION
 //-------------------------------------
 // creates a fetch function to gather data using the random user url. 
 fetch('https://randomuser.me/api/?results=12&nat=us').then(response => response.json()) // uses the .then to parse  it into json so we can use the data 
 	//.then(data => console.log(data.results)) // returns response 
     .then(data => {generateEmployee(data.results) // event listener 
-        document.addEventListener('click', (e) => { // uses closest to return the closest ancestor to the click.
-            if (e.target.closest('.card')) {
-                const index = (e.target.closest('.card').id)
-                PopUp(data.results, index)
+        document.addEventListener('click', (e) => { 
+                const index = (e.target.closest('.card').id) //// uses closest to return the closest ancestor to the click.
+                if (e.target.closest('.card')) {
+                PopUp(data.results, index) // call the popup function
             }
         })
    }
     )
-//    ---------------------------
-const modal = ` <div class="modal-container">
-<div class="modal">
-    <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-    <div class="modal-info-container">
-        <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
-        <h3 id="name" class="modal-name cap">name</h3>
-        <p class="modal-text">email</p>
-        <p class="modal-text cap">city</p>
-        <hr>
-        <p class="modal-text">(555) 555-5555</p>
-        <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
-        <p class="modal-text">Birthday: 10/21/2015</p>
-    </div>
-</div>`;
-// creates function and forEach to interpolate data to the gallery cards
+//    --------------------------- creates variable for the modal container 
+// const modal = ` <div class="modal-container">
+// <div class="modal">
+//     <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+//     <div class="modal-info-container">
+//         <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
+//         <h3 id="name" class="modal-name cap">name</h3>
+//         <p class="modal-text">email</p>
+//         <p class="modal-text cap">city</p>
+//         <hr>
+//         <p class="modal-text">(555) 555-5555</p>
+//         <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
+//         <p class="modal-text">Birthday: 10/21/2015</p>
+//     </div>
+// </div>`;
+// creates function and forEach to interpolate data to the gallery cards 
 function generateEmployee(data) {
 	let employeeCards = ""
 	data.forEach((item, index) => {
@@ -59,9 +59,9 @@ function generateEmployee(data) {
             <h3 id="name" class="card-name cap">
             ${item.name.first}   ${item.name.last}</h3>
             <p class="card-text">${item.email}</p>
-            <p class="card-text cap"> ${item.location.city}   ${item.location.state}</p>
-            <p class="modal-text">${item.cell}</p>
-            <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
+            <p class="card-text cap"> ${item.location.city}  </p>
+       
+        
             
         </div>
         </div>`
@@ -72,10 +72,12 @@ function generateEmployee(data) {
 function PopUp(employeeArray, index) {
    
    
-   	const employee =  employeeArray[index]; let noTime = `${employee.dob.date}`
+       const employee =  employeeArray[index]; 
+       // this changes the data from the api to a us birthday
+       let noTime = `${employee.dob.date}` 
 let reverseDate = `${noTime.charAt(5)}${noTime.charAt(6)}/${noTime.charAt(8)}${noTime.charAt(9)}/${noTime.charAt(2)}${noTime.charAt(3)}`
 
-
+// interpolates data to the modal window 
 	const modal = ` <div class="modal-container">
 <div class="modal">
     <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
@@ -83,13 +85,13 @@ let reverseDate = `${noTime.charAt(5)}${noTime.charAt(6)}/${noTime.charAt(8)}${n
         <img class="modal-img" src="${employee.picture.medium}" alt="profile picture">
         <h3 id="name" class="modal-name cap">${employee.name.first}  ${employee.name.last}</h3>
         <p class="modal-text">${employee.email}</p>
-
         <hr>
         <p class="modal-text">${employee.cell}</p>
         <p class="modal-text">${employee.location.street.number} ${employee.location.street.name}, ${employee.location.state}  ${employee.location.postcode}</p>
         <p class="modal-text">${reverseDate}</p>
     </div>
 </div>`;
+ 
 	const window = document.createElement('div'); // creates and appeneds the actual popup
 	document.body.appendChild(window);
     window.innerHTML = modal 
@@ -98,7 +100,7 @@ let reverseDate = `${noTime.charAt(5)}${noTime.charAt(6)}/${noTime.charAt(8)}${n
 
 
     
-
+// event listener to close the modal window
 document.addEventListener('click', (e) => {
     if (e.target.closest('.modal-close-btn')) {
         window.remove(); // removes the window 
