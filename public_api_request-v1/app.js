@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 					PopUp(data.results, index) // call the popup function
 				}
 			})
-		}) /
+		}) 
 		// creates function and forEach to interpolate data to the gallery cards 
 		function generateEmployee(data) {
 			let employeeCards = ""
